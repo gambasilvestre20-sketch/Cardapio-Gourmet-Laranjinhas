@@ -8,7 +8,7 @@
 </style>
 </head>
 <body>
-<div class="welcome" id="welcome"><div><h1>Geladinho<br>das Meninas</h1><p>Um toque de carinho em cada geladinho</p><button class="btn" id="start">Iniciar pedido</button></div></div>
+<div class="welcome" id="welcome"><div><h1>Geladinho<br>das Meninas</h1><p>Um toque de carinho em cada geladinho</p><button class="btn" id="start" type="button" onclick="document.getElementById('welcome').classList.add('off')">Iniciar pedido</button></div></div>
 <main class="screen active" id="shop"><div class="wrap">
 <header class="top"><div class="brand"><img src="logo_20261025125818.png" alt="Logo"><span>Geladinho das Meninas</span></div><div class="top-actions"><button class="btn secondary" id="favoritesBtn">♡ Favoritos</button><button class="btn secondary" id="accountBtn">Entrar / Cadastro</button></div></header>
 <section class="hero glass"><p>REFRESCÂNCIA COM CARINHO</p><h2>Seu momento<span>mais docinho.</span></h2><p>Escolha seus sabores, monte o carrinho e envie seu pedido de um jeito simples.</p></section>
@@ -33,17 +33,7 @@ const traditional=["Chocolate","Morango","Blue Ice","Maracujá","Abacaxi","Abaca
 const specials=[{id:"s0",name:"Morango com Nutella",price:null,category:"spec"},{id:"s1",name:"Maracujá com Nutella",price:null,category:"spec"}];
 const all=[...traditional,...specials],$=id=>document.getElementById(id),money=n=>Number(n||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
 const read=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}};
-const savedCart = read("gdm-cart", {});
-const savedFavs = read("gdm-favs", []);
-
-const state = {
-  category: "trad",
-  cart: savedCart && typeof savedCart === "object" && !Array.isArray(savedCart)
-    ? savedCart
-    : {},
-  favs: new Set(Array.isArray(savedFavs) ? savedFavs : []),
-  pending: null
-};
+const state={category:"trad",cart:read("gdm-cart",{}),favs:new Set(read("gdm-favs",[])),pending:null};
 function persist(){localStorage.setItem("gdm-cart",JSON.stringify(state.cart));localStorage.setItem("gdm-favs",JSON.stringify([...state.favs]))}
 function sound(){const a=$("pop");try{a.currentTime=0;a.play().catch(()=>{})}catch{}}
 function toast(t){$("toast").textContent=t;$("toast").classList.remove("hidden");clearTimeout(toast.timer);toast.timer=setTimeout(()=>$("toast").classList.add("hidden"),3200)}
@@ -56,4 +46,4 @@ function render(){const list=all.filter(p=>p.category===state.category);$("catal
 function drawFavs(){drawProducts("favProducts",all.filter(p=>state.favs.has(p.id)));$("emptyFav").classList.toggle("hidden",state.favs.size>0)}
 function screen(id){["shop","checkout","favorites"].forEach(k=>$(k).classList.toggle("active",k===id));window.scrollTo({top:0,behavior:"smooth"})}
 function buildSummary(){const table=document.createElement("table");table.className="summary";table.innerHTML="<thead><tr><th>Sabor</th><th>Qtd.</th><th>Total</th></tr></thead>";const body=document.createElement("tbody");items().forEach(p=>{const tr=document.createElement("tr");[p.name,String(qty(p)),money(p.price*qty(p))].forEach(t=>{const td=document.createElement("td");td.textContent=t;tr.append(td)});body.append(tr)});table.append(body);const totalLine=document.createElement("div");totalLine.className="total";const a=document.createElement("span");a.textContent="Total do pedido";const b=document.createElement("span");b.textContent=money(total());totalLine.append(a,b);$("summary").replaceChildren(table,totalLine);state.pending={items:items().map(p=>({name:p.name,qty:qty(p),price:p.price})),total:total()}}
-function checkout(){if(!items().length){toast("Adicione pelo menos um produto ao carrinho.");
+function chec
