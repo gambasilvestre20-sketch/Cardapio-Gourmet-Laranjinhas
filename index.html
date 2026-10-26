@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -175,6 +176,117 @@
       border-radius: 2px;
       background: #fff;
     }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .account-button, .auth-submit, .google-button, .auth-secondary {
+      border: 1px solid rgba(255,255,255,.42);
+      border-radius: 999px;
+      padding: 10px 15px;
+      background: rgba(255,255,255,.17);
+      color: #fff;
+      font-weight: 750;
+      cursor: pointer;
+    }
+
+    .account-button { white-space: nowrap; }
+
+    .auth-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      padding: 18px;
+      background: rgba(30, 8, 45, .65);
+      backdrop-filter: blur(10px);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .auth-overlay.open { display: flex; }
+
+    .auth-panel {
+      width: min(100%, 460px);
+      max-height: min(90vh, 760px);
+      overflow: auto;
+      padding: 25px;
+      border: 1px solid rgba(255,255,255,.4);
+      border-radius: 26px;
+      background: linear-gradient(145deg, #f28abd, #8b4bd8);
+      box-shadow: 0 28px 90px rgba(15, 4, 35, .4);
+    }
+
+    .auth-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .auth-top h2 { margin: 0; font-size: 1.7rem; }
+    .auth-close {
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(255,255,255,.45);
+      border-radius: 50%;
+      color: #fff;
+      background: rgba(255,255,255,.14);
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+
+    .auth-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin: 20px 0;
+    }
+
+    .auth-tab {
+      padding: 10px;
+      border: 1px solid rgba(255,255,255,.35);
+      border-radius: 13px;
+      color: white;
+      background: rgba(255,255,255,.1);
+      cursor: pointer;
+      font-weight: 750;
+    }
+
+    .auth-tab.active { background: rgba(255,255,255,.3); }
+
+    .auth-form { display: grid; gap: 12px; }
+    .auth-form label { display: grid; gap: 6px; font-size: .9rem; font-weight: 700; }
+    .auth-form input {
+      width: 100%;
+      min-height: 45px;
+      padding: 11px 13px;
+      border: 1px solid rgba(255,255,255,.45);
+      border-radius: 12px;
+      outline: none;
+      color: #452047;
+      background: rgba(255,255,255,.94);
+    }
+
+    .auth-form input:focus { box-shadow: 0 0 0 3px rgba(255,255,255,.28); }
+    .auth-submit { background: #fff4fb; color: #76245b; min-height: 46px; }
+    .google-button { background: rgba(255,255,255,.18); min-height: 46px; }
+    .auth-divider { display: flex; align-items: center; gap: 10px; margin: 14px 0; font-size: .8rem; opacity: .85; }
+    .auth-divider::before, .auth-divider::after { content: ""; height: 1px; flex: 1; background: rgba(255,255,255,.45); }
+    .auth-message { min-height: 22px; margin: 12px 0 0; font-size: .9rem; line-height: 1.45; overflow-wrap: anywhere; }
+    .auth-note { margin: 12px 0 0; font-size: .78rem; line-height: 1.5; opacity: .88; }
+    .account-view { display: none; }
+    .account-view.visible { display: block; }
+    .history-list { display: grid; gap: 10px; margin-top: 16px; }
+    .history-item { padding: 13px; border: 1px solid rgba(255,255,255,.28); border-radius: 14px; background: rgba(255,255,255,.12); }
+    .history-item strong { display: block; margin-bottom: 5px; }
+    .history-item p { margin: 4px 0; font-size: .88rem; line-height: 1.45; }
+    .auth-secondary { margin-top: 14px; }
 
     .status-pill {
       padding: 9px 13px;
@@ -538,10 +650,13 @@
   <main class="main-interface" id="mainInterface">
     <header class="topbar">
       <div class="brand">
-        <span class="brand-icon" aria-hidden="true"></span>
+        <button class="brand-icon menu-button" id="menuButton" type="button" aria-label="Abrir menu" aria-expanded="false"><span></span><span></span><span></span></button>
         <span>Geladinho das Meninas</span>
       </div>
-      <span class="status-pill">Feito com carinho </span>
+      <div class="header-actions">
+        <button class="account-button" id="accountButton" type="button">Entrar / Cadastro</button>
+        <span class="status-pill">Feito com carinho </span>
+      </div>
     </header>
 
     <section class="hero">
@@ -591,106 +706,13 @@
     </div>
   </main>
 
-  <!-- Opcional: coloque os arquivos de áudio na mesma pasta deste index.html. -->
-  <audio id="backgroundMusic" src="1 Minute Coffee break with Jazz(MP3_160K).mp3" loop preload="none"></audio>
-  <audio id="buttonSound" src="pop 1.mp3" preload="auto"></audio>
+  <section class="auth-overlay" id="authOverlay" aria-modal="true" role="dialog" aria-labelledby="authTitle">
+    <div class="auth-panel">
+      <div class="auth-top">
+        <h2 id="authTitle">Sua conta</h2>
+        <button class="auth-close" id="authClose" type="button" aria-label="Fechar">×</button>
+      </div>
 
-  <script>
-    const startButton = document.getElementById("startButton");
-    const backgroundMusic = document.getElementById("backgroundMusic");
-    const buttonSound = document.getElementById("buttonSound");
-
-    let soundUnlocked = false;
-    const menuButton = document.getElementById("menuButton");
-    const traditionalOption = document.getElementById("traditionalOption");
-    const specialOption = document.getElementById("specialOption");
-    const catalogPage = document.getElementById("catalogPage");
-    const mainInterface = document.getElementById("mainInterface");
-    const backButton = document.getElementById("backButton");
-    const flavorTable = document.getElementById("flavorTable");
-    const totalValue = document.getElementById("totalValue");
-    const confirmSelection = document.getElementById("confirmSelection");
-
-    const flavors = [
-      "Chocolate", "Morango", "Blue Ice", "Maracujá", "Abacaxi",
-      "Abacate", "Creme", "Coco branco", "Coco queimado", "Chiclete",
-      "Limão", "Milho verde", "Uva"
-    ];
-    const unitPrice = 5;
-    const quantities = Object.fromEntries(flavors.map(flavor => [flavor, 0]));
-
-    function money(value) {
-      return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-    }
-
-    function updateTotal() {
-      const total = flavors.reduce((sum, flavor) => sum + quantities[flavor] * unitPrice, 0);
-      totalValue.textContent = money(total);
-      flavors.forEach(flavor => {
-        const output = document.querySelector(`[data-quantity="${flavor}"]`);
-        if (output) output.textContent = quantities[flavor];
-        const price = document.querySelector(`[data-price="${flavor}"]`);
-        if (price) price.textContent = money(quantities[flavor] * unitPrice);
-      });
-    }
-
-    function renderFlavors() {
-      flavorTable.innerHTML = "";
-      flavors.forEach(flavor => {
-        const row = document.createElement("div");
-        row.className = "flavor-row";
-        row.innerHTML = `
-          <span class="flavor-name"></span>
-          <span class="flavor-price" data-price=""></span>
-          <div class="quantity-control">
-            <button type="button" aria-label="Diminuir quantidade">−</button>
-            <output></output>
-            <button type="button" aria-label="Aumentar quantidade">+</button>
-          </div>`;
-        row.querySelector(".flavor-name").textContent = flavor;
-        row.querySelector("[data-price]").dataset.price = flavor;
-        row.querySelector("output").dataset.quantity = flavor;
-        const buttons = row.querySelectorAll("button");
-        buttons[0].addEventListener("click", () => {
-          playButtonSound();
-          quantities[flavor] = Math.max(0, quantities[flavor] - 1);
-          updateTotal();
-        });
-        buttons[1].addEventListener("click", () => {
-          playButtonSound();
-          quantities[flavor] += 1;
-          updateTotal();
-        });
-        flavorTable.appendChild(row);
-      });
-      updateTotal();
-    }
-
-    function openCatalog() {
-      playButtonSound();
-      mainInterface.style.display = "none";
-      catalogPage.classList.add("active");
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    function closeCatalog() {
-      playButtonSound();
-      catalogPage.classList.remove("active");
-      mainInterface.style.display = "";
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    function chooseOption(option) {
-      [traditionalOption, specialOption].forEach(item => item.classList.remove("selected"));
-      option.classList.add("selected");
-      playButtonSound();
-    }
-
-    traditionalOption.addEventListener("click", event => {
-      if (event.target.closest(".select-option")) {
-        openCatalog();
-      } else {
-        chooseOption(traditionalOption);
-      }
-    });
-    specialOption.addEventListener("click", () => chooseOption(spe
+      <div id="authForms">
+        <div class="auth-tabs">
+          <button class="auth-tab active" id="
