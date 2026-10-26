@@ -27,6 +27,7 @@
     body {
       min-height: 100vh;
       overflow-x: hidden;
+      overflow-y: auto;
       background: linear-gradient(135deg, #f7a2ce 0%, #e85aa8 38%, #a855f7 72%, #5b21b6 100%);
       background-attachment: fixed;
     }
@@ -244,6 +245,22 @@
       line-height: 1.7;
     }
 
+    .option-windows {
+      width: min(100%, 900px);
+      margin: 28px auto 0;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .option-window {
+      min-height: 320px;
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 26px;
+      background: linear-gradient(150deg, rgba(255,255,255,.18), rgba(255,255,255,.07));
+      box-shadow: 0 22px 55px rgba(65, 15, 90, .14);
+    }
+
     .coming-soon {
       width: min(100%, 900px);
       margin: 22px auto 0;
@@ -284,6 +301,8 @@
     @media (max-width: 560px) {
       .main-interface { padding: 18px 13px 32px; }
       .hero { min-height: 65vh; margin-top: 18px; border-radius: 25px; }
+      .option-windows { grid-template-columns: 1fr; gap: 16px; margin-top: 20px; }
+      .option-window { min-height: 260px; border-radius: 22px; }
       .status-pill { font-size: .7rem; padding: 8px 10px; }
       .brand { font-size: .88rem; }
       .brand-icon { width: 39px; height: 39px; }
@@ -303,28 +322,33 @@
 
   <section class="welcome-screen" id="welcomeScreen" aria-label="Tela inicial">
     <div class="welcome-content">
-      <div class="welcome-mark" aria-hidden="true">🍓</div>
+      <div class="welcome-mark" aria-hidden="true"></div>
       <h1>Geladinho<br>das Meninas</h1>
-      <p>Um toque de carinho em cada geladinho 💗</p>
-      <button class="start-button" id="startButton" type="button">Iniciar pedido ✨</button>
+      <p>Um toque de carinho em cada geladinho </p>
+      <button class="start-button" id="startButton" type="button">Iniciar pedido </button>
     </div>
   </section>
 
   <main class="main-interface" id="mainInterface">
     <header class="topbar">
       <div class="brand">
-        <span class="brand-icon" aria-hidden="true">🍓</span>
+        <span class="brand-icon" aria-hidden="true"></span>
         <span>Geladinho das Meninas</span>
       </div>
-      <span class="status-pill">Feito com carinho 💗</span>
+      <span class="status-pill">Feito com carinho </span>
     </header>
 
     <section class="hero">
       <div class="hero-inner">
-        <div class="eyebrow">🍧 Refrescância com carinho</div>
+        <div class="eyebrow"> Refrescância com carinho</div>
         <h2>Seu momento<span>mais docinho.</span></h2>
         <p>Geladinhos preparados com carinho para deixar seu dia mais gostoso. Escolha seus favoritos em breve!</p>
       </div>
+    </section>
+
+    <section class="option-windows" aria-label="Janelas de opções">
+      <div class="option-window" aria-label="Primeira opção"></div>
+      <div class="option-window" aria-label="Segunda opção"></div>
     </section>
 
     <div class="coming-soon">
