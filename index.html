@@ -1,328 +1,381 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#6f36a8">
-<meta name="description" content="Peça seus geladinhos favoritos no Geladinho das Meninas.">
-<title>Geladinho das Meninas 🍓</title>
-<style>
-:root{
-  --purple:#7137a5;--purple-dark:#321448;--purple-deep:#21102f;
-  --pink:#f0a9d7;--pink-light:#ffe5f5;--lavender:#d8b8f4;
-  --cream:#fffafc;--ink:#2e1939;--muted:#806c8c;--white:#fff;
-  --shadow:0 18px 55px rgba(49,18,71,.16);--radius:24px;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--cream);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden}
-button,input,textarea,select{font:inherit}
-button{cursor:pointer}
-button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #c78cf5;outline-offset:3px}
-button:disabled{opacity:.45;cursor:not-allowed}
-.hidden{display:none!important}
-.no-scroll{overflow:hidden}
-.topbar{position:absolute;z-index:5;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:22px clamp(18px,5vw,64px);color:white}
-.brand-mini{font-weight:850;letter-spacing:.03em;text-shadow:0 2px 12px #29103b}
-.sound-toggle{border:1px solid #ffffff70;color:#fff;background:#ffffff18;border-radius:999px;padding:10px 15px;backdrop-filter:blur(10px)}
-.hero{position:relative;isolation:isolate;min-height:660px;height:min(88vh,850px);display:flex;align-items:flex-end;padding:120px clamp(20px,8vw,110px) 88px;color:white;overflow:hidden;background:#462458}
-.hero::before{content:"";position:absolute;z-index:-2;inset:0;background-image:url("SaveClip.App_629999614_18361855390163503_5129815402887603622_n.jpg.webp");background-position:center 45%;background-size:cover;transform:scale(1.025)}
-.hero::after{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(180deg,rgba(27,10,38,.22) 0%,rgba(43,14,58,.18) 26%,rgba(68,24,94,.62) 52%,#7137a5 100%)}
-.hero-content{width:min(760px,100%);animation:rise .9s ease both}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;border:1px solid #ffffff60;background:#ffffff18;backdrop-filter:blur(8px);padding:8px 13px;border-radius:999px;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase}
-.hero h1{font-family:Georgia,serif;font-size:clamp(2.8rem,7vw,6.3rem);line-height:.98;letter-spacing:-.045em;margin:22px 0 18px;max-width:800px;text-wrap:balance}
-.hero h1 span{color:#ffd7f0}
-.hero p{font-size:clamp(1rem,2vw,1.2rem);line-height:1.7;max-width:560px;color:#fff0fa;margin:0 0 28px}
-.primary-btn,.secondary-btn{border:0;border-radius:14px;padding:15px 23px;font-weight:800;transition:transform .2s,box-shadow .2s,background .2s}
-.primary-btn{background:linear-gradient(135deg,#f5b5df,#d995f0);color:#351346;box-shadow:0 10px 30px #19092330}
-.primary-btn:hover,.secondary-btn:hover{transform:translateY(-2px);box-shadow:0 14px 32px #19092328}
-.secondary-btn{background:#fff;color:var(--purple);border:1px solid #e7d4f2}
-.section{padding:78px clamp(18px,6vw,76px)}
-.section-heading{text-align:center;max-width:720px;margin:0 auto 34px}
-.section-heading .kicker{color:var(--purple);font-weight:850;text-transform:uppercase;letter-spacing:.14em;font-size:.76rem}
-.section-heading h2{font-family:Georgia,serif;font-size:clamp(2rem,4.5vw,3.5rem);line-height:1.08;margin:12px 0;color:#3b1a51}
-.section-heading p{line-height:1.7;color:var(--muted);margin:0}
-.categories{background:linear-gradient(180deg,#7137a5 0%,#e9d7f6 20%,#fff8fd 100%);padding-top:52px}
-.categories .section-heading h2,.categories .section-heading p{color:#fff}
-.categories .section-heading p{color:#f5e8fc}
-.category-grid{max-width:1060px;margin:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
-.category-card{position:relative;text-align:left;padding:0;overflow:hidden;border:2px solid #ffffffa8;border-radius:26px;background:#fff;box-shadow:var(--shadow);transition:transform .25s,border-color .25s,box-shadow .25s;min-height:350px}
-.category-card:hover{transform:translateY(-5px)}
-.category-card.selected{border:3px solid #a64dff;box-shadow:0 0 0 4px #b96aff35,0 0 28px #a64dff50,var(--shadow)}
-.category-photo{height:245px;position:relative;overflow:hidden;background:linear-gradient(135deg,#f9d7ef,#e5d3f6)}
-.category-photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
-.category-card:hover .category-photo img{transform:scale(1.045)}
-.category-photo::after{content:"";position:absolute;inset:35% 0 0;background:linear-gradient(transparent,#28103975)}
-.category-copy{padding:20px 22px 22px}
-.category-copy h3{margin:0 0 7px;font-size:1.35rem;color:#39174d}
-.category-copy p{margin:0;color:#7c6988;line-height:1.5;font-size:.94rem}
-.category-footer{max-width:1060px;margin:22px auto 0;display:flex;justify-content:center;min-height:54px}
-.category-footer .primary-btn{min-width:190px;animation:popin .25s ease}
-.category-note{text-align:center;color:#725580;font-size:.9rem;margin:18px auto 0;max-width:620px}
-.menu-section{background:linear-gradient(180deg,#fff8fd,#f5eafa)}
-.menu-head{max-width:1100px;margin:0 auto 26px;display:flex;justify-content:space-between;align-items:end;gap:20px}
-.menu-head h2{font-family:Georgia,serif;font-size:clamp(2rem,4vw,3rem);margin:0 0 8px}
-.menu-head p{color:var(--muted);margin:0;line-height:1.6}
-.pill{display:inline-flex;align-items:center;gap:7px;padding:9px 13px;border-radius:999px;background:#ead9f5;color:#66358a;font-size:.85rem;font-weight:800;white-space:nowrap}
-.flavor-grid{max-width:1100px;margin:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.flavor-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:17px 18px;background:white;border:1px solid #eadcf2;border-radius:17px;box-shadow:0 5px 18px #42205308;min-width:0}
-.flavor-info{min-width:0}
-.flavor-name{font-weight:800;color:#3c204d;display:block;overflow-wrap:anywhere}
-.flavor-price{display:block;color:#8b7097;font-size:.9rem;margin-top:4px}
-.quantity{display:flex;align-items:center;gap:10px;flex-shrink:0}
-.qty-btn{width:34px;height:34px;border:0;border-radius:11px;background:#ead9f6;color:#68318c;font-weight:900;font-size:1.2rem;display:grid;place-items:center;transition:background .2s,transform .2s}
-.qty-btn:hover{background:#d7b5ef;transform:scale(1.05)}
-.qty-value{min-width:18px;text-align:center;font-weight:850;font-variant-numeric:tabular-nums}
-.order-layout{max-width:1100px;margin:30px auto 0;display:grid;grid-template-columns:1fr 330px;gap:20px;align-items:start}
-.form-panel,.summary-panel{background:#fff;border:1px solid #eadcf2;border-radius:22px;padding:24px;box-shadow:0 8px 30px #42205308}
-.form-panel h3,.summary-panel h3{margin:0 0 18px;font-size:1.15rem}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
-.field{display:flex;flex-direction:column;gap:7px}
-.field.full{grid-column:1/-1}
-.field label{font-size:.88rem;font-weight:800;color:#58356c}
-.field input,.field textarea,.field select{width:100%;border:1px solid #e1d1ea;background:#fffaff;border-radius:12px;padding:12px 13px;color:var(--ink)}
-.field textarea{min-height:92px;resize:vertical}
-.payment-options{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.payment-option{position:relative}
-.payment-option input{position:absolute;opacity:0;pointer-events:none}
-.payment-option span{display:flex;justify-content:center;align-items:center;gap:6px;border:1px solid #e3d3ec;background:#fffaff;padding:12px 8px;border-radius:12px;font-weight:750;font-size:.9rem;cursor:pointer}
-.payment-option input:checked+span{border-color:#8d42bd;background:#f2e4fc;box-shadow:0 0 0 2px #a64dff22}
-.summary-panel{position:sticky;top:18px}
-.summary-line{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #f0e6f4;color:#6c5578;font-size:.92rem}
-.summary-line strong{color:#422653}
-.total-line{display:flex;justify-content:space-between;align-items:center;margin:18px 0 20px;font-weight:850}
-.total-line strong{font-size:1.65rem;color:#7436a1;font-variant-numeric:tabular-nums}
-.whatsapp-btn{width:100%;display:flex;justify-content:center;align-items:center;gap:8px;background:#7137a5;color:#fff;border:0;border-radius:14px;padding:15px 14px;font-weight:850;box-shadow:0 9px 22px #7137a52a}
-.whatsapp-btn:hover{background:#5b258b}
-.summary-hint{font-size:.8rem;line-height:1.55;color:#927e9d;margin:12px 0 0}
-.empty-cart{color:#9a87a4;font-size:.9rem;padding:8px 0}
-footer{padding:30px 20px;text-align:center;background:#2d153d;color:#ead9f4;font-size:.88rem}
-footer strong{color:#ffcce9}
-.overlay{position:fixed;z-index:30;inset:0;background:#16091f8a;backdrop-filter:blur(7px);display:grid;place-items:center;padding:20px;opacity:1;transition:opacity .35s}
-.overlay.gone{opacity:0;pointer-events:none}
-.welcome-card{width:min(430px,100%);text-align:center;border:1px solid #ffffffb5;border-radius:30px;padding:34px 28px 30px;background:linear-gradient(145deg,#fffaffed,#f3e5f8f2);box-shadow:0 28px 100px #180a2a75;animation:rise .65s ease both}
-.logo-wrap{width:146px;height:146px;margin:0 auto 18px;border-radius:50%;background:white;display:grid;place-items:center;overflow:hidden;box-shadow:0 10px 35px #7137a522;border:1px solid #f0dff6}
-.logo-wrap img{width:100%;height:100%;object-fit:contain}
-.logo-fallback{font-family:Georgia,serif;font-size:2rem;font-weight:bold;color:#793c9e;line-height:1.1}
-.welcome-card h2{font-family:Georgia,serif;font-size:2rem;margin:0 0 10px;color:#48225e}
-.welcome-card p{line-height:1.65;color:#816b8c;margin:0 0 22px}
-.welcome-card .primary-btn{width:100%;padding:16px}
-.welcome-small{font-size:.78rem;color:#a18ca9;margin-top:14px}
-.toast{position:fixed;z-index:50;bottom:22px;left:50%;transform:translate(-50%,20px);background:#2d153d;color:white;border-radius:12px;padding:12px 17px;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:all .25s;max-width:calc(100vw - 30px);text-align:center}
-.toast.show{opacity:1;transform:translate(-50%,0)}
-.section-anchor{scroll-margin-top:15px}
-@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-@keyframes popin{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
-@media(max-width:760px){
- .hero{min-height:610px;height:82svh;padding:110px 23px 62px;background:#462458}
- .hero h1{font-size:clamp(2.8rem,13vw,4.7rem)}
- .category-grid{gap:14px}
- .category-card{min-height:0;border-radius:20px}
- .category-photo{height:190px}
- .category-copy{padding:16px}
- .category-copy h3{font-size:1.1rem}
- .category-copy p{font-size:.85rem}
- .section{padding:58px 18px}
- .categories{padding-top:42px}
- .flavor-grid{grid-template-columns:1fr}
- .order-layout{grid-template-columns:1fr}
- .summary-panel{position:static;order:-1}
- .menu-head{align-items:start;flex-direction:column}
- .form-grid{grid-template-columns:1fr}
- .field.full{grid-column:auto}
-}
-@media(max-width:390px){
- .category-grid{grid-template-columns:1fr}
- .category-photo{height:220px}
- .payment-options{grid-template-columns:1fr}
- .topbar{padding:17px}
- .brand-mini{font-size:.9rem}
- .sound-toggle{font-size:.8rem;padding:9px 11px}
-}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#e85aa8">
+  <title>Geladinho das Meninas</title>
+  <style>
+    :root {
+      --pink: #f47ab9;
+      --pink-deep: #e94c9b;
+      --purple: #7c3aed;
+      --purple-deep: #4c1d95;
+      --white: #fffaff;
+      --glass: rgba(255, 255, 255, .16);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--white);
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+      background: linear-gradient(135deg, #f7a2ce 0%, #e85aa8 38%, #a855f7 72%, #5b21b6 100%);
+      background-attachment: fixed;
+    }
+
+    button { font: inherit; }
+
+    /* Camada de fundo decorativa; pode ser substituída por uma imagem depois. */
+    .background-art {
+      position: fixed;
+      inset: -24px;
+      z-index: -2;
+      background:
+        radial-gradient(circle at 18% 25%, rgba(255,255,255,.7), transparent 22%),
+        radial-gradient(circle at 80% 22%, rgba(255,215,240,.55), transparent 25%),
+        radial-gradient(circle at 65% 80%, rgba(100,35,180,.5), transparent 28%),
+        linear-gradient(135deg, #f6a1cf, #d84d9d 48%, #7440d6);
+      filter: blur(0);
+      transform: scale(1.03);
+      transition: filter .8s ease, opacity .8s ease, transform .8s ease;
+    }
+
+    .welcome-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: rgba(35, 10, 48, .18);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      transition: opacity .7s ease, visibility .7s ease, backdrop-filter .7s ease;
+    }
+
+    .welcome-content {
+      width: min(100%, 420px);
+      text-align: center;
+      animation: float-in .8s ease both;
+    }
+
+    .welcome-mark {
+      width: 94px;
+      height: 94px;
+      margin: 0 auto 22px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.55);
+      border-radius: 30px;
+      background: rgba(255,255,255,.2);
+      box-shadow: 0 18px 55px rgba(74, 20, 90, .2);
+      font-size: 42px;
+      backdrop-filter: blur(10px);
+    }
+
+    .welcome-content h1 {
+      margin: 0;
+      font-size: clamp(2rem, 8vw, 3.1rem);
+      line-height: 1.05;
+      letter-spacing: -.055em;
+      text-shadow: 0 4px 22px rgba(70, 15, 70, .2);
+    }
+
+    .welcome-content p {
+      margin: 14px 0 28px;
+      color: rgba(255,255,255,.9);
+      font-size: 1rem;
+    }
+
+    .start-button {
+      min-height: 56px;
+      width: min(100%, 280px);
+      padding: 15px 28px;
+      border: 1px solid rgba(255,255,255,.7);
+      border-radius: 999px;
+      color: #7b205b;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff7fc, #ffd8ed);
+      box-shadow: 0 12px 34px rgba(75, 17, 90, .26), inset 0 1px 0 white;
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .start-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 17px 38px rgba(75, 17, 90, .32), inset 0 1px 0 white;
+    }
+
+    .start-button:active { transform: scale(.98); }
+    .start-button:focus-visible { outline: 3px solid white; outline-offset: 5px; }
+
+    .main-interface {
+      min-height: 100vh;
+      padding: 26px 18px 50px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(14px);
+      transition: opacity .8s ease, transform .8s ease, visibility .8s ease;
+    }
+
+    .topbar {
+      width: min(100%, 1050px);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-size: 1rem;
+      font-weight: 850;
+      letter-spacing: -.025em;
+    }
+
+    .brand-icon {
+      display: grid;
+      place-items: center;
+      width: 43px;
+      height: 43px;
+      border: 1px solid rgba(255,255,255,.4);
+      border-radius: 15px;
+      background: rgba(255,255,255,.18);
+      box-shadow: 0 8px 25px rgba(65, 14, 95, .15);
+    }
+
+    .status-pill {
+      padding: 9px 13px;
+      border: 1px solid rgba(255,255,255,.32);
+      border-radius: 999px;
+      background: rgba(255,255,255,.14);
+      font-size: .78rem;
+      color: rgba(255,255,255,.95);
+    }
+
+    .hero {
+      width: min(100%, 900px);
+      min-height: min(68vh, 620px);
+      margin: 28px auto 0;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 48px 22px;
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 32px;
+      background: linear-gradient(145deg, rgba(255,255,255,.18), rgba(255,255,255,.06));
+      box-shadow: 0 28px 80px rgba(65, 15, 90, .18);
+      overflow: hidden;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .hero::before, .hero::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      border-radius: 50%;
+      filter: blur(2px);
+      opacity: .5;
+    }
+
+    .hero::before {
+      width: 240px;
+      height: 240px;
+      top: -110px;
+      right: -60px;
+      background: #ffc6e6;
+    }
+
+    .hero::after {
+      width: 300px;
+      height: 300px;
+      bottom: -170px;
+      left: -90px;
+      background: #5b21b6;
+    }
+
+    .hero-inner { max-width: 650px; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      padding: 8px 13px;
+      border: 1px solid rgba(255,255,255,.35);
+      border-radius: 999px;
+      background: rgba(255,255,255,.13);
+      font-size: .8rem;
+      font-weight: 750;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .hero h2 {
+      margin: 0;
+      font-size: clamp(2.4rem, 9vw, 5.4rem);
+      line-height: .98;
+      letter-spacing: -.065em;
+      text-shadow: 0 8px 30px rgba(57, 13, 82, .18);
+    }
+
+    .hero h2 span {
+      display: block;
+      color: #ffe3f3;
+    }
+
+    .hero p {
+      max-width: 470px;
+      margin: 22px auto 0;
+      color: rgba(255,255,255,.91);
+      font-size: clamp(1rem, 2.8vw, 1.15rem);
+      line-height: 1.7;
+    }
+
+    .coming-soon {
+      width: min(100%, 900px);
+      margin: 22px auto 0;
+      padding: 20px 22px;
+      border: 1px solid rgba(255,255,255,.23);
+      border-radius: 22px;
+      background: rgba(255,255,255,.1);
+      color: rgba(255,255,255,.92);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .welcome-hidden .welcome-screen {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      backdrop-filter: blur(0);
+      -webkit-backdrop-filter: blur(0);
+    }
+
+    .welcome-hidden .background-art {
+      filter: blur(0);
+      opacity: .25;
+      transform: scale(1);
+    }
+
+    .welcome-hidden .main-interface {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    @keyframes float-in {
+      from { opacity: 0; transform: translateY(18px) scale(.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @media (max-width: 560px) {
+      .main-interface { padding: 18px 13px 32px; }
+      .hero { min-height: 65vh; margin-top: 18px; border-radius: 25px; }
+      .status-pill { font-size: .7rem; padding: 8px 10px; }
+      .brand { font-size: .88rem; }
+      .brand-icon { width: 39px; height: 39px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
 </head>
 <body>
-<div class="overlay" id="welcomeOverlay" role="dialog" aria-modal="true" aria-labelledby="welcomeTitle">
-  <div class="welcome-card">
-    <div class="logo-wrap">
-      <img src="logo_20261025125818.png" alt="Logo Geladinho das Meninas" id="companyLogo">
-      <div class="logo-fallback hidden" id="logoFallback">Geladinho<br>das Meninas</div>
-    </div>
-    <h2 id="welcomeTitle">Um carinho geladinho 💗</h2>
-    <p>Escolha seus sabores favoritos e monte seu pedido com a gente.</p>
-    <button class="primary-btn" id="startOrder">Iniciar pedido</button>
-    <div class="welcome-small">Toque para entrar e ativar a música</div>
-  </div>
-</div>
+  <div class="background-art" aria-hidden="true"></div>
 
-<header class="topbar">
-  <div class="brand-mini">🍓 GELADINHO DAS MENINAS</div>
-  <button class="sound-toggle" id="soundToggle" type="button" aria-pressed="true">♫ Som ligado</button>
-</header>
-
-<main>
-  <section class="hero">
-    <div class="hero-content">
-      <div class="eyebrow">🍧 Feito com carinho</div>
-      <h1>Seu momento doce, <span>bem geladinho.</span></h1>
-      <p>Sabores deliciosos para refrescar seu dia. Escolha seus favoritos e monte seu pedido em poucos toques.</p>
-      <button class="primary-btn" id="chooseFlavor">Escolher meus sabores&nbsp; ↓</button>
+  <section class="welcome-screen" id="welcomeScreen" aria-label="Tela inicial">
+    <div class="welcome-content">
+      <div class="welcome-mark" aria-hidden="true">🍓</div>
+      <h1>Geladinho<br>das Meninas</h1>
+      <p>Um toque de carinho em cada geladinho 💗</p>
+      <button class="start-button" id="startButton" type="button">Iniciar pedido ✨</button>
     </div>
   </section>
 
-  <section class="section categories section-anchor" id="categories">
-    <div class="section-heading">
-      <div class="kicker">Nosso cardápio</div>
-      <h2>Qual vai ser hoje?</h2>
-      <p>Escolha uma categoria para continuar. Os tradicionais já estão disponíveis; em breve chegam as delícias especiais.</p>
-    </div>
-    <div class="category-grid">
-      <button class="category-card" type="button" data-category="traditional" aria-pressed="false">
-        <div class="category-photo">
-          <img src="SaveClip.App_625053558_18080439110349849_5098441813790298616_n.jpg.webp" alt="Geladinhos tradicionais com abacaxi" loading="lazy">
-        </div>
-        <div class="category-copy">
-          <h3>Geladinhos tradicionais</h3>
-          <p>Clássicos, cremosos e cheios de sabor.</p>
-        </div>
-      </button>
-      <button class="category-card" type="button" data-category="special" aria-pressed="false">
-        <div class="category-photo">
-          <img src="SaveClip.App_630425897_18395152951183091_876499372022789309_n.jpg.webp" alt="Geladinhos especiais de Chocomalte" loading="lazy">
-        </div>
-        <div class="category-copy">
-          <h3>Geladinhos especiais</h3>
-          <p>Uma experiência ainda mais indulgente. Em breve!</p>
-        </div>
-      </button>
-    </div>
-    <div class="category-footer" id="categoryAction" aria-live="polite"></div>
-    <p class="category-note">Selecione um cartão para destacar sua escolha e liberar o botão de continuar.</p>
-  </section>
-
-  <section class="section menu-section section-anchor hidden" id="menuSection">
-    <div class="menu-head">
-      <div>
-        <div class="pill">🍓 Tradicionais · R$ 5,00 cada</div>
-        <h2>Escolha seus sabores</h2>
-        <p>Use os botões + e − para ajustar as quantidades. O total é calculado automaticamente.</p>
+  <main class="main-interface" id="mainInterface">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-icon" aria-hidden="true">🍓</span>
+        <span>Geladinho das Meninas</span>
       </div>
-      <button class="secondary-btn" type="button" id="backToCategories">← Trocar categoria</button>
-    </div>
-    <div class="flavor-grid" id="flavorGrid"></div>
+      <span class="status-pill">Feito com carinho 💗</span>
+    </header>
 
-    <div class="order-layout" id="checkout">
-      <div class="form-panel">
-        <h3>📍 Dados para o pedido</h3>
-        <div class="form-grid">
-          <div class="field">
-            <label for="customerName">Seu nome *</label>
-            <input id="customerName" autocomplete="name" placeholder="Como podemos te chamar?" required>
-          </div>
-          <div class="field">
-            <label for="customerPhone">Telefone (opcional)</label>
-            <input id="customerPhone" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000">
-          </div>
-          <div class="field full">
-            <label for="customerAddress">Endereço de entrega *</label>
-            <input id="customerAddress" autocomplete="street-address" placeholder="Rua, número, bairro e referência" required>
-          </div>
-          <div class="field full">
-            <label>Forma de pagamento *</label>
-            <div class="payment-options">
-              <label class="payment-option"><input type="radio" name="payment" value="Pix" checked><span>⚪ Pix</span></label>
-              <label class="payment-option"><input type="radio" name="payment" value="Cartão"><span>💳 Cartão</span></label>
-              <label class="payment-option"><input type="radio" name="payment" value="Cédulas"><span>💵 Cédulas</span></label>
-            </div>
-          </div>
-          <div class="field full">
-            <label for="customerNotes">Observações (opcional)</label>
-            <textarea id="customerNotes" placeholder="Alguma informação importante para o pedido?"></textarea>
-          </div>
-        </div>
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="eyebrow">🍧 Refrescância com carinho</div>
+        <h2>Seu momento<span>mais docinho.</span></h2>
+        <p>Geladinhos preparados com carinho para deixar seu dia mais gostoso. Escolha seus favoritos em breve!</p>
       </div>
+    </section>
 
-      <aside class="summary-panel">
-        <h3>🧺 Resumo do pedido</h3>
-        <div id="summaryItems" aria-live="polite"><p class="empty-cart">Você ainda não escolheu sabores.</p></div>
-        <div class="summary-line"><span>Quantidade</span><strong id="totalQuantity">0 unidades</strong></div>
-        <div class="total-line"><span>Valor total</span><strong id="grandTotal">R$ 0,00</strong></div>
-        <button class="whatsapp-btn" id="finishOrder" type="button">Enviar pedido pelo WhatsApp ↗</button>
-        <p class="summary-hint">O WhatsApp abrirá com a mensagem pronta para você revisar e enviar. O pedido só será confirmado após o atendimento.</p>
-      </aside>
+    <div class="coming-soon">
+      <strong>Nosso cardápio está chegando!</strong><br>
+      Esta é a base da interface. Na próxima etapa, podemos adicionar as categorias e os sabores.
     </div>
-  </section>
-</main>
-<footer>Feito com <strong>♥</strong> pelo <strong>Geladinho das Meninas</strong></footer>
+  </main>
 
-<audio id="backgroundMusic" src="1 Minute Coffee break with Jazz(MP3_160K).mp3" preload="auto" loop></audio>
-<audio id="buttonSound" src="pop 1.mp3" preload="auto"></audio>
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <!-- Opcional: coloque os arquivos de áudio na mesma pasta deste index.html. -->
+  <audio id="backgroundMusic" src="1 Minute Coffee break with Jazz(MP3_160K).mp3" loop preload="none"></audio>
+  <audio id="buttonSound" src="pop 1.mp3" preload="auto"></audio>
 
-<script>
-(() => {
-  "use strict";
-  // Configure aqui o número do WhatsApp da loja, com código do país e DDD.
-  // Exemplo: "5534999999999". Deixe vazio até ter o número correto.
-  const WHATSAPP_NUMBER = "";
+  <script>
+    const startButton = document.getElementById("startButton");
+    const backgroundMusic = document.getElementById("backgroundMusic");
+    const buttonSound = document.getElementById("buttonSound");
 
-  const PRICE = 5.00;
-  const FLAVORS = [
-    "Chocolate", "Morango", "Blue Ice", "Maracujá", "Abacaxi",
-    "Abacate", "Creme", "Coco branco", "Coco queimado", "Chiclete",
-    "Limão", "Milho verde", "Uva"
-  ];
-  const quantities = Object.fromEntries(FLAVORS.map(flavor => [flavor, 0]));
-  let selectedCategory = null;
-  let soundEnabled = true;
-  let toastTimer;
+    let soundUnlocked = false;
 
-  const $ = id => document.getElementById(id);
-  const music = $("backgroundMusic");
-  const pop = $("buttonSound");
-  const welcomeOverlay = $("welcomeOverlay");
-  const menuSection = $("menuSection");
-  const categoryAction = $("categoryAction");
+    function playButtonSound() {
+      if (!buttonSound) return;
+      try {
+        buttonSound.currentTime = 0;
+        const soundPromise = buttonSound.play();
+        if (soundPromise && typeof soundPromise.catch === "function") {
+          soundPromise.catch(() => {});
+        }
+      } catch (error) {
+        // A interface continua funcionando mesmo se o arquivo de som não estiver disponível.
+      }
+    }
 
-  const currency = value => value.toLocaleString("pt-BR", {style:"currency", currency:"BRL"});
-  const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({
-    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
-  }[char]));
+    startButton.addEventListener("click", async () => {
+      playButtonSound();
+      document.body.classList.add("welcome-hidden");
 
-  function showToast(message) {
-    const toast = $("toast");
-    toast.textContent = message;
-    toast.classList.add("show");
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toast.classList.remove("show"), 2600);
-  }
-
-  function playPop() {
-    if (!soundEnabled) return;
-    try {
-      pop.pause();
-      pop.currentTime = 0;
-      const result = pop.play();
-      if (result && typeof result.catch === "function") result.catch(() => {});
-    } catch (_) {}
-  }
-
-  function bindButtonSounds() {
-    document.addEventListener("click", event => {
-      const target = event.target.closest("button, .payment-option span");
-      if (target && !target.disabled && target.id !== "soundToggle") playPop();
+      if (!soundUnlocked) {
+        soundUnlocked = true;
+        try {
+          backgroundMusic.volume = 0.35;
+          const musicPromise = backgroundMusic.play();
+          if (musicPromise && typeof musicPromise.catch === "function") {
+            musicPromise.catch(() => {
+              // Se o arquivo não existir, o restante da página continua normal.
+            });
+          }
+        } catch (error) {
+          // Áudio é opcional; não bloqueia a navegação.
+        }
+      }
     });
-  }
-
-  function renderFlavors() {
-    $("flavorGrid").innerHTML = FLAVORS.map((flavor, index) => `
-      <article class="flavor-row">
-        <div class="flavor-info">
-          <span class="flavor-name">${escapeHtml(flavor)}</span>
-          <span class="flavor-price">${currency(PRICE)} por unidade</span>
-        </div>
-        <div class="quantity" aria-label="Quantidade de ${escapeHtml(flavor)}">
-          <button class="qty-btn" type="button" data-action="minus" data-flavor="${escapeHtml(flavor)}" aria-label="Remover um ${escapeHtml(flavor)}" ${quantities[flavor] === 0 ? "disabled" : ""}>−</button>
-          <span class="qty-value" id="qty-${index}" aria-live="polite">${quantities[flavor]}</span>
-          <button class="qty-btn" type="button" data-action="plus" data-fla
+  </script>
+</body>
+</html>
