@@ -33,7 +33,17 @@ const traditional=["Chocolate","Morango","Blue Ice","Maracujá","Abacaxi","Abaca
 const specials=[{id:"s0",name:"Morango com Nutella",price:null,category:"spec"},{id:"s1",name:"Maracujá com Nutella",price:null,category:"spec"}];
 const all=[...traditional,...specials],$=id=>document.getElementById(id),money=n=>Number(n||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
 const read=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}};
-const state={category:"trad",cart:read("gdm-cart",{}),favs:new Set(read("gdm-favs",[])),pending:null};
+const savedCart = read("gdm-cart", {});
+const savedFavs = read("gdm-favs", []);
+
+const state = {
+  category: "trad",
+  cart: savedCart && typeof savedCart === "object" && !Array.isArray(savedCart)
+    ? savedCart
+    : {},
+  favs: new Set(Array.isArray(savedFavs) ? savedFavs : []),
+  pending: null
+};
 function persist(){localStorage.setItem("gdm-cart",JSON.stringify(state.cart));localStorage.setItem("gdm-favs",JSON.stringify([...state.favs]))}
 function sound(){const a=$("pop");try{a.currentTime=0;a.play().catch(()=>{})}catch{}}
 function toast(t){$("toast").textContent=t;$("toast").classList.remove("hidden");clearTimeout(toast.timer);toast.timer=setTimeout(()=>$("toast").classList.add("hidden"),3200)}
