@@ -156,6 +156,26 @@
       box-shadow: 0 8px 25px rgba(65, 14, 95, .15);
     }
 
+    .menu-button {
+      appearance: none;
+      padding: 10px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+      flex: 0 0 auto;
+    }
+
+    .menu-button span {
+      display: block;
+      width: 19px;
+      height: 2px;
+      border-radius: 2px;
+      background: #fff;
+    }
+
     .status-pill {
       padding: 9px 13px;
       border: 1px solid rgba(255,255,255,.32);
@@ -254,11 +274,197 @@
     }
 
     .option-window {
+      position: relative;
       min-height: 320px;
       border: 1px solid rgba(255,255,255,.3);
       border-radius: 26px;
       background: linear-gradient(150deg, rgba(255,255,255,.18), rgba(255,255,255,.07));
       box-shadow: 0 22px 55px rgba(65, 15, 90, .14);
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color .25s ease, box-shadow .25s ease, transform .25s ease;
+    }
+
+    .option-window:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 27px 62px rgba(65, 15, 90, .2);
+    }
+
+    .option-window.selected {
+      border: 2px solid #dc72ff;
+      box-shadow: 0 0 0 2px rgba(220,114,255,.18), 0 0 26px rgba(182,77,255,.48);
+    }
+
+    .option-window img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-height: 320px;
+      object-fit: cover;
+      position: absolute;
+      inset: 0;
+    }
+
+    .option-window .option-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-start;
+      padding: 22px;
+      background: linear-gradient(180deg, transparent 35%, rgba(48,12,70,.82) 100%);
+      color: #fff;
+    }
+
+    .option-overlay h3 {
+      margin: 0 0 8px;
+      font-size: 1.45rem;
+    }
+
+    .select-option {
+      display: none;
+      margin-top: 14px;
+      border: 0;
+      border-radius: 999px;
+      padding: 11px 22px;
+      background: linear-gradient(135deg, #f7a2d0, #e65bad);
+      color: #fff;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .option-window.selected .select-option { display: inline-flex; }
+
+    .catalog-page {
+      display: none;
+      min-height: 100vh;
+      padding: 0 18px 60px;
+      background: linear-gradient(180deg, #f7a2ce 0%, #e85aa8 30%, #9b4de0 65%, #5b21b6 100%);
+    }
+
+    .catalog-page.active { display: block; animation: float-in .5s ease both; }
+
+    .catalog-hero {
+      width: calc(100% + 36px);
+      margin-left: -18px;
+      height: min(52vh, 490px);
+      position: relative;
+      overflow: hidden;
+      background: #b55bbd;
+    }
+
+    .catalog-hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    .catalog-hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(95,25,120,.05) 25%, #e85aa8 83%, #e85aa8 100%);
+    }
+
+    .catalog-content {
+      width: min(100%, 900px);
+      margin: -25px auto 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .catalog-heading {
+      margin: 0 0 22px;
+      font-size: clamp(2rem, 7vw, 3.5rem);
+      letter-spacing: -.05em;
+    }
+
+    .flavor-table {
+      display: grid;
+      gap: 10px;
+    }
+
+    .flavor-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border: 1px solid rgba(255,255,255,.27);
+      border-radius: 17px;
+      background: rgba(255,255,255,.13);
+      backdrop-filter: blur(8px);
+    }
+
+    .flavor-name { font-weight: 700; }
+    .flavor-price { min-width: 66px; text-align: right; font-variant-numeric: tabular-nums; }
+
+    .quantity-control {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .quantity-control button {
+      width: 34px;
+      height: 34px;
+      border: 1px solid rgba(255,255,255,.4);
+      border-radius: 50%;
+      color: white;
+      background: rgba(255,255,255,.16);
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .quantity-control output {
+      min-width: 18px;
+      text-align: center;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .catalog-total {
+      margin-top: 20px;
+      padding: 19px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      border: 1px solid rgba(255,255,255,.32);
+      border-radius: 20px;
+      background: rgba(255,255,255,.16);
+      font-size: 1.15rem;
+      font-weight: 800;
+    }
+
+    .catalog-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 18px;
+    }
+
+    .catalog-select {
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 28px;
+      color: #7b205b;
+      background: #fff2fa;
+      font-weight: 850;
+      cursor: pointer;
+      box-shadow: 0 10px 26px rgba(75,17,90,.2);
+    }
+
+    .back-button {
+      margin: 20px 0 0;
+      padding: 10px 16px;
+      border: 1px solid rgba(255,255,255,.38);
+      border-radius: 999px;
+      background: rgba(255,255,255,.12);
+      color: white;
+      cursor: pointer;
     }
 
     .coming-soon {
@@ -347,13 +553,41 @@
     </section>
 
     <section class="option-windows" aria-label="Janelas de opções">
-      <div class="option-window" aria-label="Primeira opção"></div>
-      <div class="option-window" aria-label="Segunda opção"></div>
+      <div class="option-window" id="traditionalOption" role="button" tabindex="0" aria-label="Selecionar geladinhos tradicionais">
+        <img src="SaveClip.App_625053558_18080439110349849_5098441813790298616_n.jpg.webp" alt="Geladinhos de abacaxi">
+        <div class="option-overlay">
+          <h3>Tradicionais</h3>
+          <button class="select-option" type="button">Selecionar</button>
+        </div>
+      </div>
+      <div class="option-window" id="specialOption" role="button" tabindex="0" aria-label="Selecionar geladinhos especiais">
+        <div class="option-overlay">
+          <h3>Especiais</h3>
+        </div>
+      </div>
     </section>
 
     <div class="coming-soon">
       <strong>Nosso cardápio está chegando!</strong><br>
       Esta é a base da interface. Na próxima etapa, podemos adicionar as categorias e os sabores.
+    </div>
+  </main>
+
+  <main class="catalog-page" id="catalogPage">
+    <section class="catalog-hero">
+      <img src="SaveClip.App_629999614_18361855390163503_5129815402887603622_n.jpg.webp" alt="Geladinho de maracujá">
+    </section>
+    <div class="catalog-content">
+      <button class="back-button" id="backButton" type="button">Voltar</button>
+      <h1 class="catalog-heading">Sabores tradicionais</h1>
+      <div class="flavor-table" id="flavorTable"></div>
+      <div class="catalog-total">
+        <span>Valor total</span>
+        <span id="totalValue">R$ 0,00</span>
+      </div>
+      <div class="catalog-actions">
+        <button class="catalog-select" id="confirmSelection" type="button">Selecionar</button>
+      </div>
     </div>
   </main>
 
@@ -367,39 +601,96 @@
     const buttonSound = document.getElementById("buttonSound");
 
     let soundUnlocked = false;
+    const menuButton = document.getElementById("menuButton");
+    const traditionalOption = document.getElementById("traditionalOption");
+    const specialOption = document.getElementById("specialOption");
+    const catalogPage = document.getElementById("catalogPage");
+    const mainInterface = document.getElementById("mainInterface");
+    const backButton = document.getElementById("backButton");
+    const flavorTable = document.getElementById("flavorTable");
+    const totalValue = document.getElementById("totalValue");
+    const confirmSelection = document.getElementById("confirmSelection");
 
-    function playButtonSound() {
-      if (!buttonSound) return;
-      try {
-        buttonSound.currentTime = 0;
-        const soundPromise = buttonSound.play();
-        if (soundPromise && typeof soundPromise.catch === "function") {
-          soundPromise.catch(() => {});
-        }
-      } catch (error) {
-        // A interface continua funcionando mesmo se o arquivo de som não estiver disponível.
-      }
+    const flavors = [
+      "Chocolate", "Morango", "Blue Ice", "Maracujá", "Abacaxi",
+      "Abacate", "Creme", "Coco branco", "Coco queimado", "Chiclete",
+      "Limão", "Milho verde", "Uva"
+    ];
+    const unitPrice = 5;
+    const quantities = Object.fromEntries(flavors.map(flavor => [flavor, 0]));
+
+    function money(value) {
+      return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
     }
 
-    startButton.addEventListener("click", async () => {
-      playButtonSound();
-      document.body.classList.add("welcome-hidden");
+    function updateTotal() {
+      const total = flavors.reduce((sum, flavor) => sum + quantities[flavor] * unitPrice, 0);
+      totalValue.textContent = money(total);
+      flavors.forEach(flavor => {
+        const output = document.querySelector(`[data-quantity="${flavor}"]`);
+        if (output) output.textContent = quantities[flavor];
+        const price = document.querySelector(`[data-price="${flavor}"]`);
+        if (price) price.textContent = money(quantities[flavor] * unitPrice);
+      });
+    }
 
-      if (!soundUnlocked) {
-        soundUnlocked = true;
-        try {
-          backgroundMusic.volume = 0.35;
-          const musicPromise = backgroundMusic.play();
-          if (musicPromise && typeof musicPromise.catch === "function") {
-            musicPromise.catch(() => {
-              // Se o arquivo não existir, o restante da página continua normal.
-            });
-          }
-        } catch (error) {
-          // Áudio é opcional; não bloqueia a navegação.
-        }
+    function renderFlavors() {
+      flavorTable.innerHTML = "";
+      flavors.forEach(flavor => {
+        const row = document.createElement("div");
+        row.className = "flavor-row";
+        row.innerHTML = `
+          <span class="flavor-name"></span>
+          <span class="flavor-price" data-price=""></span>
+          <div class="quantity-control">
+            <button type="button" aria-label="Diminuir quantidade">−</button>
+            <output></output>
+            <button type="button" aria-label="Aumentar quantidade">+</button>
+          </div>`;
+        row.querySelector(".flavor-name").textContent = flavor;
+        row.querySelector("[data-price]").dataset.price = flavor;
+        row.querySelector("output").dataset.quantity = flavor;
+        const buttons = row.querySelectorAll("button");
+        buttons[0].addEventListener("click", () => {
+          playButtonSound();
+          quantities[flavor] = Math.max(0, quantities[flavor] - 1);
+          updateTotal();
+        });
+        buttons[1].addEventListener("click", () => {
+          playButtonSound();
+          quantities[flavor] += 1;
+          updateTotal();
+        });
+        flavorTable.appendChild(row);
+      });
+      updateTotal();
+    }
+
+    function openCatalog() {
+      playButtonSound();
+      mainInterface.style.display = "none";
+      catalogPage.classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function closeCatalog() {
+      playButtonSound();
+      catalogPage.classList.remove("active");
+      mainInterface.style.display = "";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function chooseOption(option) {
+      [traditionalOption, specialOption].forEach(item => item.classList.remove("selected"));
+      option.classList.add("selected");
+      playButtonSound();
+    }
+
+    traditionalOption.addEventListener("click", event => {
+      if (event.target.closest(".select-option")) {
+        openCatalog();
+      } else {
+        chooseOption(traditionalOption);
       }
     });
-  </script>
-</body>
-</html>
+    specialOption.addEventListener("click", () => chooseOption(spe
